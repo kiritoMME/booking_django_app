@@ -1,0 +1,64 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/dates.css' %}">
+<div class="container">
+    <form action="/add_booking/{{ room_id }}" method="POST" id="form">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <span class="form-label">Check In</span>
+                    <input name="start" class="form-control" type="text" id="startDateField" disabled>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <span class="form-label">Check out</span>
+                    <input name="end" class="form-control" type="text" id="endDateField" disabled>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <input type="submit" value="book">
+        </div>
+    </form>
+    <div class="dates">
+        {% for date,status in dates %}
+        {% if status %}
+        <a onclick="func(`{{ date }}`, `div{{ forloop.counter }}`)">
+            <div class="date" id="div{{forloop.counter}}">
+                {{ date }}
+            </div>
+        </a>
+        {% else %}
+        <div class="date disabled">
+            <!-- <div class="disabled"></div> -->
+            <span>{{ date }}</span>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+<script>
+    start = document.getElementById('startDateField');
+    end = document.getElementById('endDateField');
+    form = document.getElementById('form');
+
+    function func(date, id){
+        document.getElementById(id).style.backgroundColor = '#7cff4f99';
+        if(start.value === ''){
+            start.value = date;
+            form.action += `/${ date }`
+        }
+        else if(end.value === '') {
+            end.value = date;
+            form.action += `/${ date }`
+            setInterval(() => {
+                form.submit();
+            }, 100);
+        }
+    }
+</script>
+{% endblock %}

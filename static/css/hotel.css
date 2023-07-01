@@ -1,0 +1,22 @@
+h4 span {
+    color: blue;
+    background-color: yellow;
+}
+.cards{
+
+}
+.card{
+    justify-content: space-between;
+    align-items: center;
+}
+.card .text h3 {
+    margin-top: 0;
+    color: white;
+}
+.card .text p {
+    color: black;
+}
+.card button {
+    padding: 10px 20px;
+    font-size: 20px;
+}

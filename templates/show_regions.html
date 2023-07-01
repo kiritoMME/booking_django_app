@@ -1,0 +1,26 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/control_panel.css' %}">
+<div class="contianer">
+    <div class="boxes">
+        {% for region in regions %}
+        <div class="box">
+            <a href="{{ region.id }}/"><h1>{{ region.name }}</h1></a>
+            {% if user.is_superuser %}
+            <div class="btns">
+                <a class="btn edit" href="/edit_page/region/{{ region.id }}">Edit</a>
+                <a class="btn delete" href="/delete_region/{{ region.id }}">Delete</a>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+        {% if user.is_superuser %}
+        <div class="box">
+            <a href="/add_page/region/nw">Add Region</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

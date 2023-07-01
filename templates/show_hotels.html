@@ -1,0 +1,26 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/control_panel.css' %}">
+<div class="contianer hotels-container">
+    <div class="boxes">
+        {% for hotel in hotels %}
+        <div class="box">
+            <a href="{{ hotel.id }}">{{ hotel.name }}</a>
+            {% if user.is_superuser %}
+            <div class="btns">
+                <a class="btn edit" href="/edit_page/hotel/{{ hotel.id }}">Edit</a>
+                <a class="btn delete" href="/delete_hotel/{{ hotel.id }}">Delete</a>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+        {% if user.is_superuser %}
+        <div class="box">
+            <a href="/add_page/hotel/{{region_id}}">Add Hotel</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

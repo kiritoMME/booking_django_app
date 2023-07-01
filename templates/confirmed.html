@@ -1,0 +1,24 @@
+{% extends 'index.html' %}
+{% load static %}
+
+
+
+{% block content %}
+
+<div class="container confirmed-container">
+    <div class="cards">
+        {% for book in bookings %}
+        <div class="card">
+            <div class="img"><img src="{{book.room.hotel.image}}" class="card-img" alt="{{ book.room.hotel.name }} hotel image"></div>
+            <div class="card-img-overlay">
+                <h5 class="card-title"> You Have Booked <b>{{ book.room }}</b> From <b>{{ book.check_in }}</b> to <b>{{ book.check_out }}</b>. </h5>
+                <p class="card-text"><b>Hotel Description: </b>{{ book.room.hotel.description }}</p>
+                <p> The Room Number: {{ book.room.number }} </p>
+                <p> The Room Capacity: {{ book.room.capacity }} </p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

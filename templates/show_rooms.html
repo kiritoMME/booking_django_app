@@ -1,0 +1,27 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/control_panel.css' %}">
+<div class="contianer">
+    <div class="boxes">
+        {% for room in rooms %}
+        <div class="box">
+            <a href="{{ room.id }}/">{{ room.number }}</a>
+            <p>Capacity: {{ room.capacity }}</p>
+            {% if user.is_superuser %}
+            <div class="btns">
+                <a class="btn edit" href="/edit_page/room/{{ room.id }}">Edit</a>
+                <a class="btn delete" href="/delete_room/{{ room.id }}">Delete</a>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+        {% if user.is_superuser %}
+        <div class="box">
+            <a href="/add_page/room/{{hotel_id}}">Add Room</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

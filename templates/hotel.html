@@ -1,0 +1,23 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/hotel.css' %}">
+<div class="container">
+    <h1> {{ hotel.name }} </h1>
+    <h3> {{ hotel.description }} </h3>
+    <h4> These rooms are available from <span>{{ check_in }}</span> to <span>{{ check_out }}</span> </h4>
+    <h6> There are {{ rooms|length }} available Rooms </h6>
+    <div class="cards">
+        {% for room in rooms %}
+        <div class="card">
+            <div class="text">
+                <h3> Room {{ room.number }}</h3>
+                <p> It's capacity {{ room.capacity }}</p>
+            </div>
+            <a href="/add_booking/{{ room.id }}/{{ check_in }}/{{ check_out }}"><button>Book This Room</button></a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

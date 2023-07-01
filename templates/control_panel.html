@@ -1,0 +1,19 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/control_panel.css' %}">
+<div class="container">
+    <div class="boxes">
+        <div class="box">
+            <a href="/add_page/region"><h1>Add region</h1></a>
+        </div>
+        <div class="box">
+            <a href="/add_page/hotel"><h1>Add Hotel</h1></a>
+        </div>
+        <div class="box">
+            <a href="/add_page/room"><h1>Add Room</h1></a>
+        </div>
+    </div>
+</div>
+{% endblock %}

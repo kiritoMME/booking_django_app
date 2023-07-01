@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+	<title>Booking Form HTML Template</title>
+
+	<!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+
+	<!-- Bootstrap -->
+	<link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+
+	<!-- Custom stlylesheet -->
+	<link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body>
+	<div class="heading-container">
+		<nav>
+			<div id="logo">
+				Freedom
+			</div>
+			<ul>
+				<li><a href="/">Home</a></li>
+				<li><a href="/show/">Explore</a></li>
+				<!-- <li class="dropdown" onmouseover="hover(this);" onmouseout="out(this);"><a href="#">Gallery &nbsp;<i class="fa fa-caret-down"></i></a>
+				<div class="dd">
+					<div id="up_arrow"></div>
+				<ul>
+					
+					<li><a href="#">2019</a></li>
+					<li><a href="#">2018</a></li>
+					<li><a href="#">2017</a></li>
+				</ul>
+				</div>
+				</li> -->
+				<li><a href="#">About</a></li>
+				<!-- <li class="dropdown"><a href="#">Others &nbsp;<i class="fa fa-caret-down"></i> </a>
+					<div class="dd">
+						<div id="u_a_c"><div id="up_arrow"></div></div>
+						<ul>
+							
+							<li><a href="#">DOCS</a></li>
+							<li><a href="#">API</a></li>
+							<li><a href="#">PROJECTS</a></li>
+						</ul>
+				</div> -->
+				{% if user.is_authenticated %}
+				<li><a href="/confirmed">Confirmed Books</a></li>
+				<li><a href="/logout">Logout</a></li>
+				{% else %}
+				<li><a href="/signup_page">Signup</a></li>
+				{% endif %}
+			</ul>
+		</nav>
+	</div>
+	<div class="messages">
+		{% for msg in messages %}
+		<div class="message" id="msg{{ forloop.counter }}">
+			<div class="text">
+				{{ msg }}
+			</div>
+			<button onclick="document.getElementById('msg{{forloop.counter}}').style.display = 'none'">X</button>
+		</div>
+		{% endfor %}
+	</div>
+	{% block content %}
+	<div id="booking" class="section">
+		<div class="section-center">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-7 col-md-push-5">
+						<div class="booking-cta">
+							<h1>Make your reservation</h1>
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi facere, soluta magnam consectetur molestias itaque
+								ad sint fugit architecto incidunt iste culpa perspiciatis possimus voluptates aliquid consequuntur cumque quasi.
+								Perspiciatis.
+							</p>
+						</div>
+					</div>
+					<div class="col-md-4 col-md-pull-7">
+						<div class="booking-form">
+							<form method="POST" action="/search">
+								{% csrf_token %}
+								<div class="form-group">
+									<span class="form-label">Your Destination</span>
+									<input name="dest" class="form-control" type="text" placeholder="Enter a destination or hotel name">
+								</div>
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<span class="form-label">Check In</span>
+											<input name="start" class="form-control" type="date" id="startDateField" placeholder="dd-mm-yyyy" value="" required>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<span class="form-label">Check out</span>
+											<input name="end" class="form-control" type="date" id="endDateField" required>
+										</div>
+									</div>
+								</div>
+								<!-- <div class="row">
+									<div class="col-sm-4">
+										<div class="form-group">
+											<span class="form-label">Rooms</span>
+											<select class="form-control">
+												<option>1</option>
+												<option>2</option>
+												<option>3</option>
+											</select>
+											<span class="select-arrow"></span>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="form-group">
+											<span class="form-label">Adults</span>
+											<select class="form-control">
+												<option>1</option>
+												<option>2</option>
+												<option>3</option>
+											</select>
+											<span class="select-arrow"></span>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="form-group">
+											<span class="form-label">Children</span>
+											<select class="form-control">
+												<option>0</option>
+												<option>1</option>
+												<option>2</option>
+											</select>
+											<span class="select-arrow"></span>
+										</div>
+									</div>
+								</div> -->
+								<div class="form-btn">
+									<button class="submit-btn">Check availability</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="section" id="results">
+		<div class="container">
+			<div class="cards ">
+				{% for hotel, rooms in hotels %}
+				<a href="/show_hotel_in_duration/{{ hotel.id }}/{{ check_in }}/{{ check_out }}/{{ rooms }}" class="card">
+					<img src="{{hotel.image}}" class="card-img" alt="{{ hotel.name }} hotel image">
+					<div class="card-img-overlay">
+						<h5 class="card-title"> {{ hotel.name }} </h5>
+						<p class="card-text">{{ hotel.description }}</p>
+						<br>
+						<p> The number of Availbale roooms {{ rooms|length }} </p>
+					</div>
+				</a>
+				{% endfor %}
+				{% if empty %}
+				<div class="card">
+					No Results
+				</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</body>
+
+<script>
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth() + 1; //January is 0!
+	var yyyy = today.getFullYear();
+
+	if (dd < 10) {
+	dd = '0' + dd;
+	}
+
+	if (mm < 10) {
+	mm = '0' + mm;
+	} 
+		
+	today = yyyy + '-' + mm + '-' + dd;
+	const start = document.getElementById("startDateField");
+	start.setAttribute("min", today);
+	start.setAttribute("max", `${yyyy+1}-12-31`);
+	const end = document.getElementById("endDateField");
+	end.setAttribute("min", today);
+	end.setAttribute("max", `${yyyy+1}-12-31`);
+
+</script>
+{% endblock %}
+</html>

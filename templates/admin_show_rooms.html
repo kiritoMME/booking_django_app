@@ -1,0 +1,16 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/control_panel.css' %}">
+<div class="contianer">
+    <div class="boxes">
+        {% for room in rooms %}
+        <div class="box">
+            <a href="{{ room.id }}/">{{ room.number }}</a>
+            <p>Capacity: {{ room.capacity }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

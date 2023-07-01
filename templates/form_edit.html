@@ -1,0 +1,10 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+<form action="/edit_{{ category }}/{{ item_id }}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="ADD">
+</form>
+{% endblock %}
